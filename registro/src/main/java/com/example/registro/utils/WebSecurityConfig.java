@@ -19,7 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(resources).permitAll().antMatchers("/", "/index","/montar", "/ufps" , "/colpor").permitAll()
+        http.authorizeRequests().antMatchers(resources).permitAll().antMatchers("/", "/index", "/ufps" , "/colpor").permitAll()
                 .antMatchers("/ufps/**").hasAuthority("UFPS")
                 .antMatchers("/colpor/**").hasAuthority("COLPOR")
                 .anyRequest().authenticated()

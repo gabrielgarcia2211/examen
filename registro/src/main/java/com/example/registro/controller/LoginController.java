@@ -12,7 +12,7 @@ public class LoginController {
 
     
      
-    @GetMapping({"/" , "/index"})
+    @GetMapping({"/" , "/index" ,"/ufps"})
     public String index() {
         return "login";        
     }

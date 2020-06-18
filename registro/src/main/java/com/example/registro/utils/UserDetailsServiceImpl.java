@@ -28,6 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
         // Buscar el usuario con el repositorio y si no existe lanzar una exepcion
+        //usuarioRepository.findAll(Integer.valueOf(id));
         Usuario appUser = usuarioRepository.findById(Integer.valueOf(id))
                 .orElseThrow(() -> new UsernameNotFoundException("No existe usuario"));
 
@@ -56,7 +57,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // grantList.add(grantedAuthority);
 
         // Crear El objeto UserDetails que va a ir en sesion y retornarlo.
-        UserDetails usuario = (UserDetails) new User(appUser.getUsuario() , appUser.getClave(), grantList);
+        UserDetails usuario = (UserDetails) new User(String.valueOf(appUser.getId()) , appUser.getClave(), grantList);
         System.out.println(usuario);
         return usuario;
     }
