@@ -30,7 +30,7 @@ public class Basico implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date fechanacimiento;
 
-	private Timestamp fechareg;
+	private String fechareg;
 
 	private String genero;
 
@@ -118,11 +118,11 @@ public class Basico implements Serializable {
 		this.fechanacimiento = fechanacimiento;
 	}
 
-	public Timestamp getFechareg() {
+	public String getFechareg() {
 		return this.fechareg;
 	}
 
-	public void setFechareg(Timestamp fechareg) {
+	public void setFechareg(String fechareg) {
 		this.fechareg = fechareg;
 	}
 

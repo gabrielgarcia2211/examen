@@ -21,6 +21,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+
 @Controller
 @RequestMapping({ "/menu" })
 public class IndexController {
@@ -38,7 +49,7 @@ public class IndexController {
     RegistroRepository registroRepository;
 
 
-    
+    private static final String QR_CODE_IMAGE_PATH = "usuario/MyQRCode.png";
     
     @GetMapping({"/"})
     public String index(){
@@ -78,15 +89,23 @@ public class IndexController {
         Basico b = new Basico();
 
         b.setContactotelefono(request.getParameter("telefono"));
+        b.setId(p.get().getId());
+        b.setDocumento(request.getParameter("documento"));
+
+        
+            
         //b.setCormobilidad(Byte.valueOf(request.getParameter("embarazada")));
         
-        b.setEmbarazo(Byte.valueOf(request.getParameter("embarazada")));
+        b.setEmbarazo(embarazada);
         //b.setEp(Integer.valueOf(request.getParameter("eps")));
         b.setFechanacimiento(Date.valueOf(request.getParameter("fecha")));
         //b.setFechareg(Date.valueOf(request.getParameter("fecha")));
 
         b.setGenero(request.getParameter("genero"));
-
+        //b.setEp("eps");modalidad
+        
+        
+        
        // b.setMas60(null);
 
 
@@ -246,13 +265,15 @@ public class IndexController {
         //s.setCovid(0);
         s.setDificultad(aux5);
         s.setFatiga(aux3);
-        //s.setFecha(Date.ValueOf(fecha));
-        //s.setFechareg(aux7);
+        //CAMBIE ESTE TIPO DATO EN LA BD a STRING
+        //s.setFecha(fecha);
+        //s.setFechareg(fecha);
         s.setGarganta(aux6);
         s.setId(p.get().getId());
         s.setMalestar(aux2);
         s.setNasal(aux4);
-        //s.setTemperatura('');
+        //CAMBIE ESTE TIPO DATO EN LA BD a INT
+        s.setTemperatura(Integer.valueOf(temperatura));
         s.setTos(aux);
 
 
@@ -293,17 +314,15 @@ public class IndexController {
         }
 
 
+        f.setMas60(mayores_60);
+        f.setMenos15(menores_15);
+        f.setNombre(request.getParameter("nombre_familiar"));
+        f.setSalud(sector);
+
+        f.setTelefono(request.getParameter("telefono_familiar"));
 
 
-        /*f.setTelefonoFamiliar(request.getParameter("telefono_familiar"));
-        f.setNombreFamiliar(request.getParameter("nombre_familiar"));
-        f.setMayores60(mayores_60);
-        f.setMenores15(menores_15);
-        //f.setSectorSalud(sector);
-
-        f.setPersona(p.get());*/
-
-        //familiarRepository.save(f);
+        //BasicoRepository.save(f);
 
         return "menu";
 
@@ -328,7 +347,23 @@ public class IndexController {
 
         return u.get().getId();
            
-}
+    }
+
+    
+
+    //String text = "texto del qr"
+    //width y height , tamaño
+    private void generateQRCodeImage(String text, int width, int height, String filePath)
+            throws WriterException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+
+        Path path = FileSystems.getDefault().getPath(filePath);
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+    }
+
+
+   
 
 
   

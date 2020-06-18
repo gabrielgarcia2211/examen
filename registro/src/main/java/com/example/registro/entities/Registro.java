@@ -37,7 +37,7 @@ public class Registro implements Serializable {
 
 	private byte nasal;
 
-	private BigDecimal temperatura;
+	private int temperatura;
 
 	private byte tos;
 
@@ -125,11 +125,11 @@ public class Registro implements Serializable {
 		this.nasal = nasal;
 	}
 
-	public BigDecimal getTemperatura() {
+	public int getTemperatura() {
 		return this.temperatura;
 	}
 
-	public void setTemperatura(BigDecimal temperatura) {
+	public void setTemperatura(int temperatura) {
 		this.temperatura = temperatura;
 	}
 

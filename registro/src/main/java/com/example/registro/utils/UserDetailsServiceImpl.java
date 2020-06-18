@@ -21,44 +21,30 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
-
- 
-
+	
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+     public UserDetails loadUserByUsername(String user) throws UsernameNotFoundException {
 
-        // Buscar el usuario con el repositorio y si no existe lanzar una exepcion
-        //usuarioRepository.findAll(Integer.valueOf(id));
-        Usuario appUser = usuarioRepository.findById(Integer.valueOf(id))
-                .orElseThrow(() -> new UsernameNotFoundException("No existe usuario"));
+		
+     //Buscar el usuario con el repositorio y si no existe lanzar una exepcion
+     Usuario appUser = usuarioRepository.findByUsuario(user).get();
+            //.orElseThrow(() -> new UsernameNotFoundException("No existe usuario"));
+		
+    //Mapear nuestra lista de Authority con la de spring security 
+    
+    List<GrantedAuthority> roles = new ArrayList<>();
+    GrantedAuthority authority = new SimpleGrantedAuthority("Usuario");
+    roles.add(authority);
 
-        // Mapear nuestra lista de Authority con la de spring security
+    // Set <GrantedAuthority> grantList = new HashSet<>();
+    // GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
+    // grantList.add(grantedAuthority);
 
-        List<GrantedAuthority> grantList = new ArrayList<>();
-
-        String aux = "";
-
-        if(appUser.getRolBean().getDescripcion().equalsIgnoreCase("Administrador") || appUser.getRolBean().getDescripcion().equalsIgnoreCase("Usuario")){
-            aux="UFPS";
-        }else{
-            aux="COLPOR";
-        }
-
-
-        GrantedAuthority authority = new SimpleGrantedAuthority(aux);
-        grantList.add(authority);
-
-        // List<GrantedAuthority> roles = new ArrayList<>();
-        // GrantedAuthority authority = new SimpleGrantedAuthority(appUser.getEmpresaUsuario().getPerfil());
-        // roles.add(authority);
-
-        // Set <GrantedAuthority> grantList = new HashSet<>();
-        // GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
-        // grantList.add(grantedAuthority);
-
-        // Crear El objeto UserDetails que va a ir en sesion y retornarlo.
-        UserDetails usuario = (UserDetails) new User(String.valueOf(appUser.getId()) , appUser.getClave(), grantList);
-        System.out.println(usuario);
-        return usuario;
+		
+    //Crear El objeto UserDetails que va a ir en sesion y retornarlo.
+    UserDetails usuario = (UserDetails) new User(appUser.getUsuario(), appUser.getClave(), roles);
+    System.out.println(usuario);
+         return usuario;
     }
+    
 }

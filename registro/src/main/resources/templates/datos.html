@@ -35,7 +35,7 @@
         <form th:action="@{/menu/infoBasic}" th:method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Documento:</label>
-                <span th:text="${user.documento}"></span>
+                <span th:text="${user.documento}" name="documento"></span>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Nombre:</label>
@@ -71,17 +71,17 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Modalidad</label>
+                <label for="exampleFormControlSelect1">Embarazada</label>
                 <select class="form-control" id="exampleFormControlSelect1" name="embarazada" required>
                     <option>Si</option>
                     <option>No</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">Modalidad</label>
-                <select class="form-control" id="exampleFormControlSelect1" name="modalidad" requerid>
+                <label for="exampleFormControlSelect1">modalidad</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="modalidad" required>
+                    <option>Trabajo en casa</option>
                     <option>Presencial</option>
-                    <option>2</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar</button>
