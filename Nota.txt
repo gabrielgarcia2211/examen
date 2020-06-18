@@ -1,0 +1,1 @@
+Agregue la base de datos , porque cambie algunos tipos de datos, aun asi tuve algunos probelmas al momento de parsear.
